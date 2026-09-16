@@ -12,7 +12,7 @@ export function ModeNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="mb-6 flex w-fit gap-1 rounded-full bg-slate-100 p-1 text-sm">
+    <nav className="mb-6 flex w-fit gap-1 rounded-full bg-white/70 p-1 text-sm shadow-sm shadow-rose-100">
       {MODES.map((mode) => {
         const isActive = pathname === mode.href;
         return (
@@ -21,7 +21,7 @@ export function ModeNav() {
             href={mode.href}
             className={
               isActive
-                ? 'rounded-full bg-white px-3 py-1.5 font-medium text-indigo-600 shadow-sm'
+                ? 'rounded-full bg-rose-500 px-3 py-1.5 font-medium text-white shadow-sm'
                 : 'rounded-full px-3 py-1.5 text-slate-500 hover:text-slate-700'
             }
           >

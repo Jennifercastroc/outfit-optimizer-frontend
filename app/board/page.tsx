@@ -57,7 +57,7 @@ export default function BoardPage() {
 
   if (authLoading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50 p-6">
+      <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-rose-50 via-white to-sky-50 p-6">
         <p className="text-sm text-slate-500">Cargando...</p>
       </main>
     );
@@ -114,14 +114,33 @@ export default function BoardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 p-6">
-      <div className="mx-auto max-w-3xl">
+    <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-rose-50 via-white to-sky-50 p-6">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-sky-200/40 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-24 bottom-0 h-72 w-72 rounded-full bg-rose-200/40 blur-3xl"
+      />
+
+      <div className="relative mx-auto max-w-3xl">
         <ModeNav />
-        <h1 className="mb-6 text-2xl font-semibold text-slate-900">Analizar tablero de looks</h1>
+
+        <div className="mb-6 flex items-center justify-between gap-3">
+          <div>
+            <span className="inline-block rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-rose-600">
+              Tablero de looks
+            </span>
+            <h1 className="mt-2 text-2xl font-semibold text-slate-900">
+              Analiza tu tablero y recibe recomendaciones
+            </h1>
+          </div>
+        </div>
 
         <form
           onSubmit={handleSubmit}
-          className="flex max-w-xl flex-col gap-4 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm shadow-slate-200/50"
+          className="flex max-w-xl flex-col gap-4 rounded-2xl border border-rose-100 bg-white/80 p-6 shadow-sm shadow-rose-100"
         >
           <div className="flex flex-col gap-1">
             <label htmlFor="images" className="text-sm font-medium text-slate-700">
@@ -133,7 +152,7 @@ export default function BoardPage() {
               accept="image/*"
               multiple
               onChange={handleFilesChange}
-              className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600 outline-none transition file:mr-3 file:rounded-md file:border-0 file:bg-indigo-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-indigo-600 hover:file:bg-indigo-100 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+              className="rounded-lg border border-rose-100 bg-white px-3 py-2 text-sm text-slate-600 outline-none transition file:mr-3 file:rounded-md file:border-0 file:bg-rose-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-rose-600 hover:file:bg-rose-100 focus:border-rose-300 focus:ring-2 focus:ring-rose-100"
             />
           </div>
 
@@ -172,7 +191,7 @@ export default function BoardPage() {
               type="text"
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-900 outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+              className="rounded-lg border border-rose-100 bg-white px-3 py-2.5 text-slate-900 outline-none transition focus:border-rose-300 focus:ring-2 focus:ring-rose-100"
             />
           </div>
 
@@ -184,7 +203,7 @@ export default function BoardPage() {
               id="gender"
               value={gender}
               onChange={(e) => setGender(e.target.value as Gender)}
-              className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-900 outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+              className="rounded-lg border border-rose-100 bg-white px-3 py-2.5 text-slate-900 outline-none transition focus:border-rose-300 focus:ring-2 focus:ring-rose-100"
             >
               <option value="" disabled>
                 Selecciona una opción
@@ -204,7 +223,7 @@ export default function BoardPage() {
               type="number"
               value={budget}
               onChange={(e) => setBudget(e.target.value)}
-              className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-900 outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+              className="rounded-lg border border-rose-100 bg-white px-3 py-2.5 text-slate-900 outline-none transition focus:border-rose-300 focus:ring-2 focus:ring-rose-100"
             />
           </div>
 
@@ -217,23 +236,23 @@ export default function BoardPage() {
               type="text"
               value={size}
               onChange={(e) => setSize(e.target.value)}
-              className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-900 outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+              className="rounded-lg border border-rose-100 bg-white px-3 py-2.5 text-slate-900 outline-none transition focus:border-rose-300 focus:ring-2 focus:ring-rose-100"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="mt-2 rounded-lg bg-indigo-600 px-4 py-2.5 font-medium text-white shadow-sm transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-50"
+            className="mt-2 rounded-lg bg-rose-500 px-4 py-2.5 font-medium text-white shadow-sm shadow-rose-200 transition hover:bg-rose-400 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? 'Analizando...' : 'Analizar tablero'}
           </button>
         </form>
 
         {loading && (
-          <div className="mt-4 flex max-w-xl items-center gap-3 rounded-lg border border-indigo-100 bg-indigo-50 px-3 py-3">
-            <span className="h-4 w-4 flex-shrink-0 animate-spin rounded-full border-2 border-indigo-200 border-t-indigo-600" />
-            <p className="text-sm text-indigo-700">
+          <div className="mt-4 flex max-w-xl items-center gap-3 rounded-lg border border-sky-100 bg-sky-50 px-3 py-3">
+            <span className="h-4 w-4 flex-shrink-0 animate-spin rounded-full border-2 border-sky-200 border-t-sky-600" />
+            <p className="text-sm text-sky-700">
               {LOADING_MESSAGES[loadingMessageIndex]}
             </p>
           </div>
@@ -247,8 +266,8 @@ export default function BoardPage() {
 
         {result !== null && (
           <div className="mt-6 flex flex-col gap-6">
-            <div className="rounded-2xl border border-indigo-100 bg-indigo-50 p-5">
-              <p className="text-lg leading-relaxed text-indigo-950">
+            <div className="rounded-2xl border border-sky-100 bg-sky-50 p-5">
+              <p className="text-lg leading-relaxed text-sky-950">
                 {result.styleNarrative}
               </p>
             </div>
@@ -312,7 +331,7 @@ export default function BoardPage() {
                           type="checkbox"
                           checked={isOwned}
                           onChange={() => toggleOwned(idx)}
-                          className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-200"
+                          className="h-4 w-4 rounded border-slate-300 text-rose-500 focus:ring-rose-200"
                         />
                         Ya tengo esto en mi clóset
                       </label>

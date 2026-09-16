@@ -27,7 +27,7 @@ export function RecommendationCard({ recommendation }: RecommendationCardProps) 
   const matchPercent = Math.round(score * 100);
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm shadow-slate-200/50">
+    <div className="flex flex-col overflow-hidden rounded-xl border border-rose-100 bg-white shadow-sm shadow-rose-100/50">
       <div className="aspect-square w-full bg-slate-50">
         {imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
