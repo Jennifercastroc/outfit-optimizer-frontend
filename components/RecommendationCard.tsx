@@ -9,10 +9,11 @@ const currencyFormatter = new Intl.NumberFormat('es-CO', {
 const BREAKDOWN_LABELS: Record<string, string> = {
   categoryMatch: 'Categoría',
   colorMatch: 'Color',
-  styleMatch: 'Estilo',
-  priceCompatibility: 'Precio',
+  styleMatch: 'Estilo de la prenda',
+  storeStyleMatch: 'Estilo de la tienda',
+  priceCompatibility: 'Presupuesto',
   sizeAvailability: 'Talla disponible',
-  nationalProximity: 'Cercanía nacional',
+  nationalProximity: 'Disponibilidad nacional',
   visualMatchScore: 'Similitud visual (0-100)',
   reason: 'Motivo (IA visual)',
 };
