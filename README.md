@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Outfit Optimizer — Frontend
 
-## Getting Started
+Este es el **frontend** de Outfit Optimizer, una app que analiza fotos de tus outfits (una imagen o un tablero de looks) con IA y te recomienda prendas y accesorios de distintas tiendas para completar tu estilo, según tu ciudad, presupuesto, talla y género.
 
-First, run the development server:
+Este repo solo contiene la interfaz web (Next.js). El análisis de imágenes y la búsqueda de productos los resuelve un backend aparte, al que este frontend le pega vía API.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Stack
+
+- [Next.js 16](https://nextjs.org) (App Router) + React 19
+- TypeScript
+- Tailwind CSS 4
+- [Supabase](https://supabase.com) para autenticación (email/contraseña)
+- [Bun](https://bun.sh) como gestor de paquetes
+
+## Estructura del proyecto
+
+```
+app/
+  login/     -> pantalla de inicio de sesión / registro
+  board/     -> análisis de un tablero de varias imágenes (pantalla principal tras login)
+  analyze/   -> análisis de una sola imagen
+  layout.tsx -> layout raíz (fuentes, AuthProvider)
+  page.tsx   -> redirige a /board o /login según haya sesión
+
+components/  -> UI compartida (nav, tarjetas de recomendación, etc.)
+lib/         -> cliente de la API del backend, cliente de Supabase, contexto de auth
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Requisitos previos
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [Bun](https://bun.sh) 1.3+ (o Node.js 20+ si prefieres usar npm/pnpm/yarn)
+- El backend de Outfit Optimizer corriendo en algún lado (local o desplegado) — este frontend no funciona sin él
+- Un proyecto de [Supabase](https://supabase.com) para la autenticación
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Variables de entorno
 
-## Learn More
+Copia el archivo de ejemplo y complétalo:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+cp .env.local.example .env.local
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3000        # URL del backend
+NEXT_PUBLIC_SUPABASE_URL=                        # Project URL de tu proyecto Supabase
+NEXT_PUBLIC_SUPABASE_ANON_KEY=                   # anon/public key de ese proyecto
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Los dos valores de Supabase están en **Project Settings → API** dentro del dashboard de tu proyecto.
 
-## Deploy on Vercel
+## Instalación y ejecución
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+bun install
+bun run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+La app queda disponible en [http://localhost:3001](http://localhost:3001).
+
+> El dev server corre en el puerto **3001** (no 3000) a propósito, para no chocar con el backend, que por defecto corre en `localhost:3000`.
+
+## Scripts disponibles
+
+| Comando         | Qué hace                              |
+| --------------- | -------------------------------------- |
+| `bun run dev`   | Levanta el servidor de desarrollo      |
+| `bun run build` | Compila la app para producción         |
+| `bun run start` | Sirve el build de producción           |
+| `bun run lint`  | Corre ESLint sobre el proyecto         |
+
+## Flujo de la app
+
+1. **Login** (`/login`): el usuario inicia sesión o crea una cuenta con Supabase.
+2. Tras autenticarse, se redirige a **`/board`**, la pantalla principal.
+3. En el tablero, el usuario sube una o varias fotos de sus looks y completa ciudad, género, presupuesto (opcional) y talla (opcional).
+4. Al analizar, la app muestra:
+   - una narrativa de estilo generada por IA,
+   - una recomendación de accesorio (si aplica),
+   - las prendas esenciales detectadas, cada una con recomendaciones de productos de tiendas reales para completar el look.
+5. `/analyze` es un modo alterno pensado para analizar una sola imagen en vez de un tablero completo.
+
+Si no hay sesión activa, cualquier pantalla protegida (`/board`, `/analyze`) redirige automáticamente a `/login`.
