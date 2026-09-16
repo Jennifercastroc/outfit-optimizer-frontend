@@ -57,8 +57,8 @@ export default function BoardPage() {
 
   if (authLoading) {
     return (
-      <main className="mx-auto max-w-xl p-6">
-        <p className="text-sm">Cargando...</p>
+      <main className="flex min-h-screen items-center justify-center bg-slate-50 p-6">
+        <p className="text-sm text-slate-500">Cargando...</p>
       </main>
     );
   }
@@ -114,227 +114,232 @@ export default function BoardPage() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl p-6">
-      <ModeNav />
-      <h1 className="text-2xl font-semibold mb-6">Analizar tablero de looks</h1>
+    <main className="min-h-screen bg-slate-50 p-6">
+      <div className="mx-auto max-w-3xl">
+        <ModeNav />
+        <h1 className="mb-6 text-2xl font-semibold text-slate-900">Analizar tablero de looks</h1>
 
-      <form onSubmit={handleSubmit} className="flex max-w-xl flex-col gap-4">
-        <div className="flex flex-col gap-1">
-          <label htmlFor="images" className="text-sm font-medium">
-            Imágenes *
-          </label>
-          <input
-            id="images"
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleFilesChange}
-            className="border rounded px-3 py-2"
-          />
-        </div>
+        <form
+          onSubmit={handleSubmit}
+          className="flex max-w-xl flex-col gap-4 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm shadow-slate-200/50"
+        >
+          <div className="flex flex-col gap-1">
+            <label htmlFor="images" className="text-sm font-medium text-slate-700">
+              Imágenes *
+            </label>
+            <input
+              id="images"
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleFilesChange}
+              className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600 outline-none transition file:mr-3 file:rounded-md file:border-0 file:bg-indigo-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-indigo-600 hover:file:bg-indigo-100 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+            />
+          </div>
 
-        {previews.length > 0 && (
-          <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
-            {previews.map((url, idx) => (
-              <div
-                key={url}
-                className="relative aspect-square overflow-hidden rounded border border-gray-200 dark:border-gray-800"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={url}
-                  alt={`Imagen ${idx + 1}`}
-                  className="h-full w-full object-cover"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeImage(idx)}
-                  aria-label={`Quitar imagen ${idx + 1}`}
-                  className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-xs leading-none text-white hover:bg-black/80"
+          {previews.length > 0 && (
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+              {previews.map((url, idx) => (
+                <div
+                  key={url}
+                  className="relative aspect-square overflow-hidden rounded-lg border border-slate-200"
                 >
-                  ×
-                </button>
-              </div>
-            ))}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={url}
+                    alt={`Imagen ${idx + 1}`}
+                    className="h-full w-full object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeImage(idx)}
+                    aria-label={`Quitar imagen ${idx + 1}`}
+                    className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-xs leading-none text-white hover:bg-black/80"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="flex flex-col gap-1">
+            <label htmlFor="city" className="text-sm font-medium text-slate-700">
+              Ciudad *
+            </label>
+            <input
+              id="city"
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-900 outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label htmlFor="gender" className="text-sm font-medium text-slate-700">
+              Género *
+            </label>
+            <select
+              id="gender"
+              value={gender}
+              onChange={(e) => setGender(e.target.value as Gender)}
+              className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-900 outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+            >
+              <option value="" disabled>
+                Selecciona una opción
+              </option>
+              <option value="mujer">Mujer</option>
+              <option value="hombre">Hombre</option>
+              <option value="unisex">Unisex</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label htmlFor="budget" className="text-sm font-medium text-slate-700">
+              Presupuesto
+            </label>
+            <input
+              id="budget"
+              type="number"
+              value={budget}
+              onChange={(e) => setBudget(e.target.value)}
+              className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-900 outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label htmlFor="size" className="text-sm font-medium text-slate-700">
+              Talla
+            </label>
+            <input
+              id="size"
+              type="text"
+              value={size}
+              onChange={(e) => setSize(e.target.value)}
+              className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-900 outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="mt-2 rounded-lg bg-indigo-600 px-4 py-2.5 font-medium text-white shadow-sm transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {loading ? 'Analizando...' : 'Analizar tablero'}
+          </button>
+        </form>
+
+        {loading && (
+          <div className="mt-4 flex max-w-xl items-center gap-3 rounded-lg border border-indigo-100 bg-indigo-50 px-3 py-3">
+            <span className="h-4 w-4 flex-shrink-0 animate-spin rounded-full border-2 border-indigo-200 border-t-indigo-600" />
+            <p className="text-sm text-indigo-700">
+              {LOADING_MESSAGES[loadingMessageIndex]}
+            </p>
           </div>
         )}
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="city" className="text-sm font-medium">
-            Ciudad *
-          </label>
-          <input
-            id="city"
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="border rounded px-3 py-2"
-          />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label htmlFor="gender" className="text-sm font-medium">
-            Género *
-          </label>
-          <select
-            id="gender"
-            value={gender}
-            onChange={(e) => setGender(e.target.value as Gender)}
-            className="border rounded px-3 py-2"
-          >
-            <option value="" disabled>
-              Selecciona una opción
-            </option>
-            <option value="mujer">Mujer</option>
-            <option value="hombre">Hombre</option>
-            <option value="unisex">Unisex</option>
-          </select>
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label htmlFor="budget" className="text-sm font-medium">
-            Presupuesto
-          </label>
-          <input
-            id="budget"
-            type="number"
-            value={budget}
-            onChange={(e) => setBudget(e.target.value)}
-            className="border rounded px-3 py-2"
-          />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label htmlFor="size" className="text-sm font-medium">
-            Talla
-          </label>
-          <input
-            id="size"
-            type="text"
-            value={size}
-            onChange={(e) => setSize(e.target.value)}
-            className="border rounded px-3 py-2"
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="border rounded px-4 py-2 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {loading ? 'Analizando...' : 'Analizar tablero'}
-        </button>
-      </form>
-
-      {loading && (
-        <div className="mt-4 flex max-w-xl items-center gap-3 rounded border border-gray-200 px-3 py-3 dark:border-gray-800">
-          <span className="h-4 w-4 flex-shrink-0 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600 dark:border-gray-700 dark:border-t-gray-300" />
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            {LOADING_MESSAGES[loadingMessageIndex]}
+        {error && (
+          <p className="mt-4 max-w-xl rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-600">
+            {error}
           </p>
-        </div>
-      )}
+        )}
 
-      {error && (
-        <p className="mt-4 max-w-xl text-sm text-red-600 border border-red-300 rounded px-3 py-2">
-          {error}
-        </p>
-      )}
-
-      {result !== null && (
-        <div className="mt-6 flex flex-col gap-6">
-          <div className="rounded-lg border border-indigo-200 bg-indigo-50 p-5 dark:border-indigo-900 dark:bg-indigo-950/40">
-            <p className="text-lg leading-relaxed text-indigo-950 dark:text-indigo-100">
-              {result.styleNarrative}
-            </p>
-          </div>
-
-          {result.accessoryRecommendation !== '' && (
-            <div className="rounded-lg border border-amber-200 bg-amber-50 p-5 dark:border-amber-900 dark:bg-amber-950/40">
-              <div className="mb-2 flex items-center gap-2">
-                <span className="text-xl leading-none">💡</span>
-                <h2 className="text-base font-semibold text-amber-900 dark:text-amber-200">
-                  Recomendación de accesorio
-                </h2>
-              </div>
-              <p className="text-base leading-relaxed text-amber-900 dark:text-amber-200">
-                {result.accessoryRecommendation}
+        {result !== null && (
+          <div className="mt-6 flex flex-col gap-6">
+            <div className="rounded-2xl border border-indigo-100 bg-indigo-50 p-5">
+              <p className="text-lg leading-relaxed text-indigo-950">
+                {result.styleNarrative}
               </p>
             </div>
-          )}
 
-          {result.essentialCategories.length > 0 && (
-            <div className="flex flex-col gap-4">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                Prendas esenciales detectadas
-              </h2>
-              {result.essentialCategories.map((cat, idx) => {
-                const isOwned = !!ownedCategories[idx];
-                return (
-                  <div
-                    key={idx}
-                    className="flex flex-col gap-3 rounded-lg border border-gray-200 p-4 dark:border-gray-800"
-                  >
-                    <div>
-                      <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
-                        {cat.specificDescription}
-                      </h3>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
-                        Aparece en el {Math.round(cat.imageFrequency * 100)}% de tus looks ·{' '}
-                        {cat.color} · {cat.material} · {cat.pattern}
-                      </p>
-                    </div>
+            {result.accessoryRecommendation !== '' && (
+              <div className="rounded-2xl border border-amber-100 bg-amber-50 p-5">
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="text-xl leading-none">💡</span>
+                  <h2 className="text-base font-semibold text-amber-900">
+                    Recomendación de accesorio
+                  </h2>
+                </div>
+                <p className="text-base leading-relaxed text-amber-900">
+                  {result.accessoryRecommendation}
+                </p>
+              </div>
+            )}
 
-                    {cat.exampleImageIndexes.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {cat.exampleImageIndexes.map((imgIdx) => (
-                          <div
-                            key={imgIdx}
-                            className="h-20 w-20 flex-shrink-0 overflow-hidden rounded border border-gray-200 dark:border-gray-800"
-                          >
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={result.images[imgIdx]}
-                              alt={`Ejemplo de ${cat.category}`}
-                              className="h-full w-full object-cover"
-                            />
-                          </div>
-                        ))}
+            {result.essentialCategories.length > 0 && (
+              <div className="flex flex-col gap-4">
+                <h2 className="text-lg font-semibold text-slate-900">
+                  Prendas esenciales detectadas
+                </h2>
+                {result.essentialCategories.map((cat, idx) => {
+                  const isOwned = !!ownedCategories[idx];
+                  return (
+                    <div
+                      key={idx}
+                      className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-white p-4 shadow-sm shadow-slate-200/50"
+                    >
+                      <div>
+                        <h3 className="text-base font-semibold text-slate-900">
+                          {cat.specificDescription}
+                        </h3>
+                        <p className="text-xs text-slate-500">
+                          Aparece en el {Math.round(cat.imageFrequency * 100)}% de tus looks ·{' '}
+                          {cat.color} · {cat.material} · {cat.pattern}
+                        </p>
                       </div>
-                    )}
 
-                    <label className="flex w-fit items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                      <input
-                        type="checkbox"
-                        checked={isOwned}
-                        onChange={() => toggleOwned(idx)}
-                        className="h-4 w-4 rounded border-gray-300"
-                      />
-                      Ya tengo esto en mi clóset
-                    </label>
-
-                    {!isOwned &&
-                      (cat.recommendations.length > 0 ? (
-                        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                          {cat.recommendations.map((recommendation, recIdx) => (
-                            <RecommendationCard
-                              key={recIdx}
-                              recommendation={recommendation}
-                            />
+                      {cat.exampleImageIndexes.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {cat.exampleImageIndexes.map((imgIdx) => (
+                            <div
+                              key={imgIdx}
+                              className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg border border-slate-200"
+                            >
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                src={result.images[imgIdx]}
+                                alt={`Ejemplo de ${cat.category}`}
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
                           ))}
                         </div>
-                      ) : (
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          No encontramos opciones disponibles ahora mismo.
-                        </p>
-                      ))}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      )}
+                      )}
+
+                      <label className="flex w-fit items-center gap-2 text-sm text-slate-700">
+                        <input
+                          type="checkbox"
+                          checked={isOwned}
+                          onChange={() => toggleOwned(idx)}
+                          className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-200"
+                        />
+                        Ya tengo esto en mi clóset
+                      </label>
+
+                      {!isOwned &&
+                        (cat.recommendations.length > 0 ? (
+                          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                            {cat.recommendations.map((recommendation, recIdx) => (
+                              <RecommendationCard
+                                key={recIdx}
+                                recommendation={recommendation}
+                              />
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-sm text-slate-500">
+                            No encontramos opciones disponibles ahora mismo.
+                          </p>
+                        ))}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </main>
   );
 }
